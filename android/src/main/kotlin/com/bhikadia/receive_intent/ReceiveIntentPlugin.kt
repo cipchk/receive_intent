@@ -35,7 +35,7 @@ class ReceiveIntentPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     private var initialIntent = true
 
     private fun handleIntent(intent: Intent, fromPackageName: String?) {
-        //Log.e("ReceiveIntentPlugin", "intent: $intent")
+        Log.e("ReceiveIntentPlugin", "intent: $intent")
         //Log.e("ReceiveIntentPlugin", "fromPackageName: $fromPackageName")
         val intentMap = mapOf<String, Any?>(
                 "fromPackageName" to fromPackageName,
@@ -109,6 +109,7 @@ class ReceiveIntentPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        Log.e("ReceiveIntentPlugin", "onAttachedToActivity: $binding")
         activity = binding.activity
         binding.addOnNewIntentListener(fun(intent: Intent?): Boolean {
             intent?.let { handleIntent(it, binding.activity.callingActivity?.packageName) }
@@ -118,10 +119,12 @@ class ReceiveIntentPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
+        Log.e("ReceiveIntentPlugin", "onDetachedFromActivityForConfigChanges")
         activity = null;
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        Log.e("ReceiveIntentPlugin", "onReattachedToActivityForConfigChanges: $binding")
         activity = binding.activity
         binding.addOnNewIntentListener(fun(intent: Intent?): Boolean {
             intent?.let { handleIntent(it, binding.activity.callingActivity?.packageName) }
@@ -131,6 +134,7 @@ class ReceiveIntentPlugin : FlutterPlugin, MethodCallHandler, EventChannel.Strea
     }
 
     override fun onDetachedFromActivity() {
+        Log.e("ReceiveIntentPlugin", "onDetachedFromActivity")
         activity = null;
     }
 }
